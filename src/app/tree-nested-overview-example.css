@@ -1,3 +1,17 @@
+.tree-node-selected {
+  background-color: transparent;
+  color: white;
+}
+.selected-background {
+  background-color: grey;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  z-index: -1;
+}
+
 .example-tree-invisible {
   display: none;
 }
@@ -12,7 +26,7 @@
 /*
  * This padding sets alignment of the nested nodes.
  */
-.example-tree .mat-nested-tree-node div[role=group] {
+.example-tree .mat-nested-tree-node div[role='group'] {
   padding-left: 30px;
 }
 
@@ -21,6 +35,10 @@
  * Leaf nodes need to have padding so as to align with other non-leaf nodes
  * under the same parent.
  */
-.example-tree div[role=group] > .mat-tree-node {
+.example-tree div[role='group'] > .mat-tree-node {
   padding-left: 0px;
+}
+
+.example-tree {
+  background-color: transparent;
 }
