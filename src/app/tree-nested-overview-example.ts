@@ -9,8 +9,26 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 interface FoodNode {
   name: string;
   children?: FoodNode[];
+  screen?: screenNode;
   isSelected?: boolean;
 }
+
+interface screenNode {
+  displayname: string;
+}
+
+const screens: screenNode[] = [
+  { displayname: 'Landing Page/Promotion' },
+  { displayname: 'Landing Page/Quick Draw' },
+  { displayname: 'Landing Page/Offers' },
+  { displayname: 'Account Section/My Account Update' },
+  { displayname: 'Account Section/My Account/Patron Profile' },
+  { displayname: 'Account Section/My Account/Patron Earning' },
+  { displayname: 'Redemption' },
+  { displayname: 'Win Loss' },
+];
+
+const Screen_Tree: FoodNode[] = [];
 
 const TREE_DATA: FoodNode[] = [
   { name: 'hello', isSelected: true },
@@ -51,24 +69,57 @@ export class TreeNestedOverviewExample {
   dataSource = new MatTreeNestedDataSource<FoodNode>();
 
   constructor() {
-    this.dataSource.data = TREE_DATA;
+    //this.dataSource.data = TREE_DATA;
+    this.convertScreen2Tree();
   }
 
   hasChild = (_: number, node: FoodNode) =>
     !!node.children && node.children.length > 0;
 
   public selectNode($e: FoodNode) {
-    this.clearNode(TREE_DATA);
+    this.clearNode(this.dataSource.data);
     $e.isSelected = true;
   }
 
   private clearNode(x: FoodNode[]) {
-    x.forEach(child => {
+    x.forEach((child) => {
       child.isSelected = false;
       if (child.children) {
         this.clearNode(child.children);
       }
-    })
+    });
+  }
+
+  private convertScreen2Tree() {
+    screens.forEach((child) => {
+      const nestName = child.displayname.split('/');
+      console.log('convertScreen2Tree', child.displayname, nestName);
+      this.addScreen2Tree(nestName, Screen_Tree, child);
+    });
+    this.dataSource.data = Screen_Tree;
+  }
+
+  private addScreen2Tree(
+    nestName: string[],
+    tree: FoodNode[],
+    currentscreen: screenNode
+  ) {
+    console.log('addScreen2Tree', nestName);
+    if (nestName.length === 1) {
+      tree.push({ name: nestName[0], screen: currentscreen });
+    } else {
+      if (!tree.some((x) => x.name === nestName[0])) {
+        tree.push({ name: nestName[0], children: [] });
+      }
+      const treechildren = tree.find((x) => x.name === nestName[0]);
+      if (treechildren) {
+        this.addScreen2Tree(
+          nestName.splice(1, nestName.length - 1),
+          treechildren.children!,
+          currentscreen
+        );
+      }
+    }
   }
 }
 
