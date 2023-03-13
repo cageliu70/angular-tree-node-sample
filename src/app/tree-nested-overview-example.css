@@ -1,6 +1,7 @@
 .tree-node-selected {
   background-color: transparent;
   color: white;
+  width: 100%;
 }
 .selected-background {
   background-color: grey;
@@ -37,8 +38,25 @@
  */
 .example-tree div[role='group'] > .mat-tree-node {
   padding-left: 0px;
+  width: 100%;
 }
 
 .example-tree {
   background-color: transparent;
+}
+
+.tree-button {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  padding-left: 0px;
+}
+
+.button-icon {
+  float: right;
+}
+
+.tree-node {
+  width: 100%;
+  padding-right: 20px;
 }

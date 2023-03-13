@@ -8,26 +8,31 @@
     This padding value depends on the mat-icon-button width. -->
   <mat-tree-node
     *matTreeNodeDef="let node"
-    [ngClass]="node.isSelected ? 'tree-node-selected' : ''"
+    [ngClass]="node.isSelected ? 'tree-node-selected bg-primary' : ''"
     matTreeNodeToggle
   >
     <div *ngIf="node.isSelected" class="selected-background"></div>
-    <a (click)="selectNode(node)">
-      <div *ngIf="node.isSelected">* {{node.name}}</div>
-      <div *ngIf="!node.isSelected">{{node.name}}</div>
-    </a>
+    <div class="tree-node">
+      <a (click)="selectNode(node)"> {{node.name}} </a>
+      <mat-icon
+        *ngIf="node.isSelected"
+        class="ms-auto button-icon lock-icon-font-size"
+        >lock_outline</mat-icon
+      >
+    </div>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
     <div class="mat-tree-node">
       <button
-        mat-icon-button
+        mat-button
         matTreeNodeToggle
         [attr.aria-label]="'Toggle ' + node.name"
+        class="tree-button"
       >
-        {{node.name}}
-        <mat-icon class="mat-icon-rtl-mirror">
-          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        <span>{{node.name}}</span>
+        <mat-icon class="mat-icon-rtl-mirror button-icon">
+          {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
         </mat-icon>
       </button>
     </div>
